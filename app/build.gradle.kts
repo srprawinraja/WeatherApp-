@@ -50,18 +50,18 @@ android {
 }
 
 dependencies {
-    val lifecycle_version = "2.2.0"
+    implementation(libs.androidx.runtime.livedata)
+    val lifecycle_version = "2.8.5"
 
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-
     // Gson Converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.7.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
