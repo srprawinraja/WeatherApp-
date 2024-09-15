@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,15 +36,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.API.NetworkResponse
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
-    var city by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("madurai") }
     val text_color = ContextCompat.getColor(LocalContext.current, R.color.text_color)
     val black_color  = ContextCompat.getColor(LocalContext.current, R.color.black)
     var isFocused by remember { mutableStateOf(false) }
+    val weatherResult =weatherViewModel.weatherResult.observeAsState()
     Column (
         modifier = Modifier
             .background(colorResource(id = R.color.background)) // Background first
@@ -62,7 +66,8 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp).onFocusChanged {
+                    .padding(20.dp)
+                    .onFocusChanged {
                         isFocused = it.isFocused
                     },
                 value = city,
@@ -102,6 +107,22 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
             )
 
         }
+        when(val result = weatherResult.value){
+            is NetworkResponse.Success -> {
+                Text(text = result.data.toString(), color = Color.White)
+            }
+            is NetworkResponse.Error ->{
+                Text(text = result.message)
+            }
+            NetworkResponse.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            null -> {
+                Text(text = "error occured")
+            }
+        }
+
     }
 }
 
