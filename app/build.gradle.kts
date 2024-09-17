@@ -58,6 +58,10 @@ dependencies {
     // Gson Converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    // image loading
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
