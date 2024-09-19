@@ -29,7 +29,6 @@ class WeatherViewModel:ViewModel() {
             try {
                 val response = weatherApi.getWeather(Constant.apiKey, city)
                 if (response.isSuccessful) {
-                    Log.d("Response", response.body().toString())
                     response.body()?.let {
                         _weatherResult.value = NetworkResponse.Success(it)
                     }

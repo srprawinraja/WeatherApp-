@@ -16,9 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -47,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +75,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
     var isFocused by remember { mutableStateOf(false) }
     val weatherResult =weatherViewModel.weatherResult.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    var scroll= rememberScrollState()
     Column (
         modifier = Modifier
             .background(colorResource(id = R.color.background)) // Background first
@@ -85,8 +88,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Set IME action to "Done"
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        // Action to perform when "Done" is pressed
-                        // You can add other actions here, like processing the text
+
                         keyboardController?.hide()
                         weatherViewModel.getData(city)
 
@@ -116,10 +118,10 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                         if(!isFocused) {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = "search icon"
+                                contentDescription = "search the icon"
                             )
                             Text(
-                                text = "Search for City",
+                                text = stringResource(id = R.string.search),
                             )
                         }
 
@@ -139,7 +141,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            //WeatherDetailPreview()
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
                     WeatherDetail(heading_color, result.data)
@@ -154,7 +155,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                 }
 
                 null -> {
-                    Text(text = "error occured")
+                    Text(text = stringResource(id = R.string.error))
                 }
             }
         }
@@ -162,167 +163,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
     }
 }
 
-@Composable
-fun WeatherDetailPreview() {
-    val headingColor = ContextCompat.getColor(LocalContext.current, R.color.heading)
-    Text(
-        "Chennai",
-        fontSize = 25.sp,
-        color = Color.White,
-        fontStyle = FontStyle.Normal,
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-    )
-    Spacer(modifier = Modifier.height(1.dp))
-    Text(
-        "Partly Cloudy",
-        fontSize = 12.sp,
-        color = Color(color=headingColor),
-        fontStyle = FontStyle.Normal,
-        fontFamily = FontFamily.Default,
-
-        )
-    Spacer(modifier = Modifier.height(20.dp))
-    Image(imageVector = Icons.Default.ShoppingCart, contentDescription = "", modifier = Modifier.size(150.dp))
-    Spacer(modifier = Modifier.height(20.dp))
-
-    Row{
-        Text(
-            "45",
-            fontSize = 40.sp,
-            color = Color.White,
-            fontStyle = FontStyle.Normal,
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.ExtraBold,
-            )
-
-        Image(
-            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
-            contentDescription = "weather image",
-            modifier = Modifier.size(10.dp)
-        )
-    }
-    Spacer(modifier = Modifier.height(50.dp))
-    Column (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-        ){
-    Column (
-        modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(color = colorResource(id = R.color.body_background_color))
-            .fillMaxWidth()
-
-    ) {
-        Text(
-            text = "AIR CONDITIONS",
-            color = Color(headingColor),
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
-        )
-
-        LazyColumn (
-            modifier = Modifier.wrapContentSize()
-        ){
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 10.dp) // This makes the first column take all available space
-
-                    ) {
-                        Text(
-                            text = "Wind",
-                            color = Color(headingColor),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Text(
-                            text = "12 Km/h",
-                            color = Color.White,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                    Column (
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 10.dp),
-                        horizontalAlignment = Alignment.End
-                    ){
-                        Text(
-                            text = "Dew Point",
-                            color = Color(headingColor),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Text(
-                            text = "45 °C",
-                            color = Color.White,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                }
-                Spacer(modifier =Modifier.height(10.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
-                ) {
-                    Column (
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 10.dp)
-
-                        ){
-                        Text(
-                            text = "Humidity",
-                            color = Color(headingColor),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Text(
-                            text = "12%",
-                            color = Color.White,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                    Column (
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 10.dp),
-                        horizontalAlignment = Alignment.End
-                    ){
-                        Text(
-                            text = "Cloud Cover",
-                            color = Color(headingColor),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Text(
-                            text = "34%",
-                            color = Color.White,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                }
-            }
-        }
-    }
-    }
-}
 
 @Composable
 fun WeatherDetail(headingColor:Int, data:WeatherModel){
@@ -347,8 +187,8 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
     Spacer(modifier = Modifier.height(20.dp))
     AsyncImage(
         modifier = Modifier.size(160.dp),
-        model = "https:${data.current.condition.icon}".replace("64x64","128x128"),
-        contentDescription = "icon",
+        model = stringResource(id = R.string.https)+"${data.current.condition.icon}".replace("64x64","128x128"),
+        contentDescription = stringResource(id = R.string.icon),
     )
     Spacer(modifier = Modifier.height(20.dp))
 
@@ -364,7 +204,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
 
         Image(
             painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
-            contentDescription = "weather image",
+            contentDescription = stringResource(id = R.string.weatherImage),
             modifier = Modifier.size(10.dp)
         )
     }
@@ -385,7 +225,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
 
         ) {
             Text(
-                text = "AIR CONDITIONS",
+                text = stringResource(id = R.string.air),
                 color = Color(headingColor),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
@@ -406,13 +246,13 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                                 .padding(start = 10.dp) // This makes the first column take all available space
                         ){
                             Text(
-                                text = "Real Feel",
+                                text = stringResource(id = R.string.feel),
                                 color = Color(headingColor),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
-                                text = "${data.current.feelslike_c} °C",
+                                text = "${data.current.feelslike_c} "+ stringResource(id = R.string.C),
                                 color = Color.White,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
@@ -425,13 +265,13 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                             horizontalAlignment = Alignment.End
                         ){
                             Text(
-                                text = "Wind",
+                                text = stringResource(id = R.string.wind),
                                 color = Color(headingColor),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
-                                text = "${data.current.wind_kph} Km/h",
+                                text = "${data.current.wind_kph}"+ stringResource(id = R.string.km),
                                 color = Color.White,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
@@ -449,15 +289,16 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Column (
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(start = 10.dp),                            ){
+                                .padding(start = 10.dp),
+                            ){
                             Text(
-                                text = "Humidity",
+                                text = stringResource(id = R.string.humidity),
                                 color = Color(headingColor),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
-                                text = "${data.current.humidity}%",
+                                text = "${data.current.humidity}"+ stringResource(id = R.string.percent),
                                 color = Color.White,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
@@ -471,7 +312,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
 
                         ) {
                             Text(
-                                text = "UV Index",
+                                text = stringResource(id = R.string.uv),
                                 color = Color(headingColor),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
