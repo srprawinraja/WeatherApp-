@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="search_icon">search icon</string>
+    <string name="uv">UV Index</string>
+    <string name="humidity">Humidity</string>
+    <string name="km">Km/h</string>
+    <string name="wind">Wind</string>
+    <string name="C">°C</string>
+    <string name="feel">Real Feel</string>
+    <string name="air">AIR CONDITIONS</string>
+    <string name="icon">icon</string>
+    <string name="weatherImage">weather image</string>
+    <string name="https">https:</string>
+    <string name="error">error occurred</string>
+    <string name="search">Search for City </string>
+    <string name="fail">Failed to load the data</string>
+    <string name="percent">%</string>
+
+
 </resources>
