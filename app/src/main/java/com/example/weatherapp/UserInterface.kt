@@ -64,9 +64,7 @@ import com.example.weatherapp.ui.theme.WeatherAppTheme
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
 
-    LaunchedEffect(Unit) {
-        weatherViewModel.getData("madurai")
-    }
+
     var city by remember { mutableStateOf("") }
     val text_color = ContextCompat.getColor(LocalContext.current, R.color.text_color)
     val heading_color = ContextCompat.getColor(LocalContext.current, R.color.heading)
