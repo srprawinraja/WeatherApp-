@@ -118,7 +118,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                         if(!isFocused) {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = "search the icon"
+                                contentDescription = stringResource(id = R.string.search_icon)
                             )
                             Text(
                                 text = stringResource(id = R.string.search),
