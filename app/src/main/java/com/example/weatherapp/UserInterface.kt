@@ -88,7 +88,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                         // Action to perform when "Done" is pressed
                         // You can add other actions here, like processing the text
                         keyboardController?.hide()
-                        weatherViewModel.getData(city)
+                        //weatherViewModel.getData(city)
 
                     }
                 ),
@@ -139,7 +139,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-           // WeatherDetailPreview()
+            //WeatherDetailPreview()
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
                     WeatherDetail(heading_color, result.data)
@@ -202,10 +202,11 @@ fun WeatherDetailPreview() {
             modifier = Modifier.size(10.dp)
         )
     }
+    Spacer(modifier = Modifier.height(50.dp))
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(50.dp),
+            .padding(start = 30.dp, end = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ){
@@ -216,6 +217,14 @@ fun WeatherDetailPreview() {
             .fillMaxWidth()
 
     ) {
+        Text(
+            text = "AIR CONDITIONS",
+            color = Color(headingColor),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+        )
+
         LazyColumn (
             modifier = Modifier.wrapContentSize()
         ){
@@ -223,27 +232,31 @@ fun WeatherDetailPreview() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp)
+                        .padding(10.dp)
                 ) {
                     Column(
-                        modifier = Modifier.weight(1f) // This makes the first column take all available space
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 10.dp) // This makes the first column take all available space
 
                     ) {
                         Text(
                             text = "Wind",
                             color = Color(headingColor),
-                            fontSize = 12.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
                             text = "12 Km/h",
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     }
                     Column (
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 10.dp),
                         horizontalAlignment = Alignment.End
                     ){
                         Text(
@@ -255,18 +268,21 @@ fun WeatherDetailPreview() {
                         Text(
                             text = "45 °C",
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     }
                 }
+                Spacer(modifier =Modifier.height(10.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp)
+                        .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
                 ) {
                     Column (
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 10.dp)
 
                         ){
                         Text(
@@ -278,12 +294,14 @@ fun WeatherDetailPreview() {
                         Text(
                             text = "12%",
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     }
                     Column (
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 10.dp),
                         horizontalAlignment = Alignment.End
                     ){
                         Text(
@@ -295,7 +313,7 @@ fun WeatherDetailPreview() {
                         Text(
                             text = "34%",
                             color = Color.White,
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -350,10 +368,12 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
             modifier = Modifier.size(10.dp)
         )
     }
+    Spacer(modifier = Modifier.height(50.dp))
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(50.dp),
+            .padding(start = 30.dp, end = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
@@ -364,6 +384,13 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                 .fillMaxWidth()
 
         ) {
+            Text(
+                text = "AIR CONDITIONS",
+                color = Color(headingColor),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+            )
             LazyColumn (
                 modifier = Modifier.wrapContentSize()
             ) {
@@ -371,38 +398,42 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(20.dp)
+                            .padding(10.dp)
                     ) {
                         Column (
-                            modifier = Modifier.weight(1f) // This makes the first column take all available space
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 10.dp) // This makes the first column take all available space
                         ){
                             Text(
                                 text = "Real Feel",
                                 color = Color(headingColor),
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
                                 text = "${data.current.feelslike_c} °C",
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }
                         Column (
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 10.dp),
                             horizontalAlignment = Alignment.End
                         ){
                             Text(
                                 text = "Wind",
                                 color = Color(headingColor),
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
                                 text = "${data.current.wind_kph} Km/h",
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }
@@ -414,36 +445,39 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
 
                     ) {
                         Column (
-                            modifier = Modifier.weight(1f),
-                            ){
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 10.dp),                            ){
                             Text(
                                 text = "Humidity",
                                 color = Color(headingColor),
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
                                 text = "${data.current.humidity}%",
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }
                         Column(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 10.dp),
                             horizontalAlignment = Alignment.End
 
                         ) {
                             Text(
                                 text = "UV Index",
                                 color = Color(headingColor),
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
                                 text = "${data.current.uv}",
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }
