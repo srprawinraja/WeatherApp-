@@ -1,39 +1,28 @@
 package com.example.weatherapp
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -63,27 +51,24 @@ import com.example.weatherapp.API.NetworkResponse
 import com.example.weatherapp.API.WeatherModel
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
 
 
     var city by remember { mutableStateOf("") }
-    val text_color = ContextCompat.getColor(LocalContext.current, R.color.text_color)
-    val heading_color = ContextCompat.getColor(LocalContext.current, R.color.heading)
-    val black_color  = ContextCompat.getColor(LocalContext.current, R.color.black)
+    val textColor = ContextCompat.getColor(LocalContext.current, R.color.text_color)
+    val headingColor = ContextCompat.getColor(LocalContext.current, R.color.heading)
+    val blackColor  = ContextCompat.getColor(LocalContext.current, R.color.black)
     var isFocused by remember { mutableStateOf(false) }
     val weatherResult =weatherViewModel.weatherResult.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
-    var scroll= rememberScrollState()
+
     Column (
         modifier = Modifier
             .background(colorResource(id = R.color.background)) // Background first
             .fillMaxSize()
     ){
-        Row (
-
-        ){
+        Row {
             OutlinedTextField(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), // Set IME action to "Done"
                 keyboardActions = KeyboardActions(
@@ -102,19 +87,19 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                     },
                 value = city,
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(text_color),
-                    unfocusedContainerColor = Color(text_color),
-                    focusedIndicatorColor = Color(text_color),
-                    unfocusedIndicatorColor = Color(text_color),
-                    focusedLabelColor = Color(text_color),
-                    cursorColor = Color(black_color)
+                    focusedContainerColor = Color(textColor),
+                    unfocusedContainerColor = Color(textColor),
+                    focusedIndicatorColor = Color(textColor),
+                    unfocusedIndicatorColor = Color(textColor),
+                    focusedLabelColor = Color(textColor),
+                    cursorColor = Color(blackColor)
                 ),
 
                 onValueChange ={
                     city=it
                 },
                 label = {
-                    Row() {
+                    Row {
                         if(!isFocused) {
                             Icon(
                                 imageVector = Icons.Default.Search,
@@ -143,7 +128,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
         ) {
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
-                    WeatherDetail(heading_color, result.data)
+                    WeatherDetail(headingColor, result.data)
                 }
 
                 is NetworkResponse.Error -> {
@@ -187,7 +172,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
     Spacer(modifier = Modifier.height(20.dp))
     AsyncImage(
         modifier = Modifier.size(160.dp),
-        model = stringResource(id = R.string.https)+"${data.current.condition.icon}".replace("64x64","128x128"),
+        model = stringResource(id = R.string.https)+ data.current.condition.icon.replace("64x64","128x128"),
         contentDescription = stringResource(id = R.string.icon),
     )
     Spacer(modifier = Modifier.height(20.dp))
