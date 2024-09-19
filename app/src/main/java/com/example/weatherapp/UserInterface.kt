@@ -88,7 +88,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                         // Action to perform when "Done" is pressed
                         // You can add other actions here, like processing the text
                         keyboardController?.hide()
-                        //weatherViewModel.getData(city)
+                        weatherViewModel.getData(city)
 
                     }
                 ),
@@ -421,7 +421,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Column (
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(start = 10.dp),
+                                .padding(end = 10.dp),
                             horizontalAlignment = Alignment.End
                         ){
                             Text(
@@ -438,10 +438,12 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                             )
                         }
                     }
+                    Spacer(modifier =Modifier.height(10.dp))
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(20.dp)
+                            .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
 
                     ) {
                         Column (
@@ -464,7 +466,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Column(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(start = 10.dp),
+                                .padding(end = 10.dp),
                             horizontalAlignment = Alignment.End
 
                         ) {
