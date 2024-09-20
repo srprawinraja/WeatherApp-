@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -62,11 +64,12 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
     var isFocused by remember { mutableStateOf(false) }
     val weatherResult =weatherViewModel.weatherResult.observeAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    val scroll = rememberScrollState()
     Column (
         modifier = Modifier
             .background(colorResource(id = R.color.background)) // Background first
             .fillMaxSize()
+            .verticalScroll(scroll)
     ){
         Row {
             OutlinedTextField(
@@ -174,6 +177,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
         modifier = Modifier.size(160.dp),
         model = stringResource(id = R.string.https)+ data.current.condition.icon.replace("64x64","128x128"),
         contentDescription = stringResource(id = R.string.icon),
+        error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
     )
     Spacer(modifier = Modifier.height(20.dp))
 
@@ -216,51 +220,44 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
             )
-            LazyColumn (
-                modifier = Modifier.wrapContentSize()
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
             ) {
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
-                    ) {
-                        Column (
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 10.dp) // This makes the first column take all available space
-                        ){
-                            Text(
-                                text = stringResource(id = R.string.feel),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.feelslike_c} "+ stringResource(id = R.string.C),
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        Column (
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 10.dp),
-                            horizontalAlignment = Alignment.End
-                        ){
-                            Text(
-                                text = stringResource(id = R.string.wind),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.wind_kph}"+ stringResource(id = R.string.km),
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp) // This makes the first column take all available space
+                ){
+                    Text(
+                        text = stringResource(id = R.string.feel),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+                    Text(
+                        text = "${data.current.feelslike_c} "+ stringResource(id = R.string.C),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+                }
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    horizontalAlignment = Alignment.End
+                ){
+                    Text(
+                        text = stringResource(id = R.string.wind),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,)
+                    Text(
+                        text = "${data.current.wind_kph}"+ stringResource(id = R.string.km),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,)
                         }
                     }
                     Spacer(modifier =Modifier.height(10.dp))
@@ -310,8 +307,6 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                             )
                         }
                     }
-                }
-            }
         }
     }
 }
