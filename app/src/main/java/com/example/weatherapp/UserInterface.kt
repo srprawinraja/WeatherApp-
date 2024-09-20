@@ -172,6 +172,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
         modifier = Modifier.size(160.dp),
         model = stringResource(id = R.string.https)+ data.current.condition.icon.replace("64x64","128x128"),
         contentDescription = stringResource(id = R.string.icon),
+        error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
     )
     Spacer(modifier = Modifier.height(20.dp))
 
