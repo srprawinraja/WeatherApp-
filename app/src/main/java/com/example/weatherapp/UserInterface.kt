@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -129,9 +130,10 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
+            WeatherDetailPreview(headingColor)
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
-                    WeatherDetail(headingColor, result.data)
+                    //WeatherDetail(headingColor, result.data)
                 }
 
                 is NetworkResponse.Error -> {
@@ -310,7 +312,191 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
         }
     }
 }
+@Composable
+fun WeatherDetailPreview(headingColor:Int){
 
+    Text(
+        "chennai",
+        fontSize = 25.sp,
+        color = Color.White,
+        fontStyle = FontStyle.Normal,
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+    )
+    Spacer(modifier = Modifier.height(1.dp))
+    Text(
+        "partly cloud",
+        fontSize = 12.sp,
+        color = Color(color=headingColor),
+        fontStyle = FontStyle.Normal,
+        fontFamily = FontFamily.Default,
+
+        )
+    Spacer(modifier = Modifier.height(20.dp))
+    Image(painter = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d), contentDescription = "", modifier = Modifier.size(128.dp))
+    Spacer(modifier = Modifier.height(20.dp))
+
+    Row{
+        Text(
+            "30",
+            fontSize = 40.sp,
+            color = Color.White,
+            fontStyle = FontStyle.Normal,
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.ExtraBold,
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
+            contentDescription = stringResource(id = R.string.weatherImage),
+            modifier = Modifier.size(10.dp)
+        )
+    }
+    Spacer(modifier = Modifier.height(50.dp))
+
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+        Column (
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = colorResource(id = R.color.body_background_color))
+                .fillMaxWidth()
+        ){
+            Column (
+                modifier = Modifier.wrapContentSize().padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ){
+                Text(
+                    text = "Today",
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = "Tomorrow",
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = "Day after Tomorrow",
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = colorResource(id = R.color.body_background_color))
+                .fillMaxWidth()
+
+        ) {
+            Text(
+                text = stringResource(id = R.string.air),
+                color = Color(headingColor),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp) // This makes the first column take all available space
+                ){
+                    Text(
+                        text = stringResource(id = R.string.feel),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+                    Text(
+                        text = "40 "+ stringResource(id = R.string.C),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold)
+                }
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    horizontalAlignment = Alignment.End
+                ){
+                    Text(
+                        text = stringResource(id = R.string.wind),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,)
+                    Text(
+                        text = "75"+ stringResource(id = R.string.km),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,)
+                }
+            }
+            Spacer(modifier =Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
+
+            ) {
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp),
+                ){
+                    Text(
+                        text = stringResource(id = R.string.humidity),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = "67"+ stringResource(id = R.string.percent),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    horizontalAlignment = Alignment.End
+
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.uv),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = "56",
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
