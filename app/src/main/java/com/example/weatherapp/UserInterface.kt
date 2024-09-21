@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -368,23 +369,43 @@ fun WeatherDetailPreview(headingColor:Int){
                 .fillMaxWidth()
         ){
             Column (
-                modifier = Modifier.wrapContentSize().padding(20.dp),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Text(
+                        text = "Today",
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Image(imageVector = Icons.Default.Add, contentDescription = "")
+                    Text(
+                        text = "Sunny",
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = "36/22",
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
                 Text(
-                    text = "Today",
+                    text = "Tue",
                     color = Color(headingColor),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Tomorrow",
-                    color = Color(headingColor),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                Text(
-                    text = "Day after Tomorrow",
+                    text = "Wed",
                     color = Color(headingColor),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
