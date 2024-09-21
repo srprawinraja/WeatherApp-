@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -371,45 +372,105 @@ fun WeatherDetailPreview(headingColor:Int){
             Column (
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                    .padding(20.dp)
             ){
+                Text(
+                    text = "3-DAY FORECAST",
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ){
+                    Text(
+                        text = "Today",
+                        color = colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Image(imageVector = Icons.Default.Add, contentDescription = "",modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = "Sunny",
+                        color = colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+
+                    )
+                    Text(
+                        text = "36/22",
+                        color =  colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+
+                    )
+                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Text(
-                        text = "Today",
-                        color = Color(headingColor),
+                        text = "Tue",
+                        color = colorResource(id = R.color.text_color),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+
                     )
-                    Image(imageVector = Icons.Default.Add, contentDescription = "")
+                    Image(imageVector = Icons.Default.Add, contentDescription = "",modifier = Modifier.weight(1f))
                     Text(
                         text = "Sunny",
-                        color = Color(headingColor),
+                        color = colorResource(id = R.color.text_color),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+
                     )
                     Text(
                         text = "36/22",
-                        color = Color(headingColor),
+                        color =  colorResource(id = R.color.text_color),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+
                     )
                 }
-                Text(
-                    text = "Tue",
-                    color = Color(headingColor),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                Text(
-                    text = "Wed",
-                    color = Color(headingColor),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    Text(
+                        text = "Wed",
+                        color = colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Image(imageVector = Icons.Default.Add, contentDescription = "",modifier = Modifier.weight(1f))
+                    Text(
+                        text = "Sunny",
+                        color = colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+
+                    )
+                    Text(
+                        text = "36/22",
+                        color =  colorResource(id = R.color.text_color),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
 
         }
@@ -424,9 +485,9 @@ fun WeatherDetailPreview(headingColor:Int){
             Text(
                 text = stringResource(id = R.string.air),
                 color = Color(headingColor),
-                fontSize = 15.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+                modifier = Modifier.padding(start = 20.dp, top = 15.dp,)
             )
 
             Row(
@@ -449,6 +510,7 @@ fun WeatherDetailPreview(headingColor:Int){
                         color = Color.White,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold)
+
                 }
                 Column (
                     modifier = Modifier
