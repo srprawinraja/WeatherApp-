@@ -311,7 +311,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = dateToDay(data, 1),
+                            text = dateToDay(data, 2),
                             color = colorResource(id = R.color.text_color),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
@@ -319,19 +319,19 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         )
                         AsyncImage(
                             modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
-                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).day.condition.icon,
+                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(2).day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
                         )
                         Text(
-                            text = data.forecast.forecastday.get(0).day.condition.text,
+                            text = data.forecast.forecastday.get(2).day.condition.text,
                             color = colorResource(id = R.color.text_color), fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
 
                         )
                         Text(
-                            text ="${data.forecast.forecastday.get(0).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
+                            text ="${data.forecast.forecastday.get(2).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
                             color = colorResource(id = R.color.text_color),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
