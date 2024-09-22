@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.API.Constant
+import com.example.weatherapp.API.ConstantDays
+import com.example.weatherapp.API.ConstantKey
 import com.example.weatherapp.API.NetworkResponse
 import com.example.weatherapp.API.RetrofitInstance
 import com.example.weatherapp.API.WeatherApi
@@ -27,7 +28,9 @@ class WeatherViewModel:ViewModel() {
         _weatherResult.value = NetworkResponse.Loading
         viewModelScope.launch {
             try {
-                val response = weatherApi.getWeather(Constant.apiKey, city)
+
+                val response = weatherApi.getWeather(ConstantKey.apiKey, city, ConstantDays.days)
+
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _weatherResult.value = NetworkResponse.Success(it)

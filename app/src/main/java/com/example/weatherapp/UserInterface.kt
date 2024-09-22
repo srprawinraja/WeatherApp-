@@ -1,13 +1,17 @@
 package com.example.weatherapp
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -18,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -44,6 +49,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,6 +58,10 @@ import coil.compose.AsyncImage
 import com.example.weatherapp.API.NetworkResponse
 import com.example.weatherapp.API.WeatherModel
 import com.example.weatherapp.ui.theme.WeatherAppTheme
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
@@ -69,7 +79,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
         modifier = Modifier
             .background(colorResource(id = R.color.background)) // Background first
             .fillMaxSize()
-            .verticalScroll(scroll)
     ){
         Row {
             OutlinedTextField(
@@ -127,8 +136,11 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
         }
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scroll)
         ) {
+           // WeatherDetailPreview(headingColor)
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
                     WeatherDetail(headingColor, result.data)
@@ -187,7 +199,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
             fontStyle = FontStyle.Normal,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.ExtraBold,
-            )
+        )
 
         Image(
             painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
@@ -204,6 +216,140 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
+        Column (
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = colorResource(id = R.color.body_background_color))
+                .fillMaxWidth()
+        ){
+            Column (
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(20.dp),
+            ){
+                Text(
+                    text = stringResource(id = R.string.forecast),
+                    color = Color(headingColor),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Column (
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                ){
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = "Today",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.weight(1f)
+                        )
+                        AsyncImage(
+                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).day.condition.icon,
+                            contentDescription = stringResource(id = R.string.icon),
+                            error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
+                            alignment = Alignment.TopCenter
+                        )
+                        Text(
+                            text = data.forecast.forecastday.get(0).day.condition.text,
+                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+
+                        )
+                        Text(
+                            text ="${data.forecast.forecastday.get(0).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.End
+
+
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = dateToDay(data, 1),
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+
+                            )
+                        AsyncImage(
+                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(1).day.condition.icon,
+                            contentDescription = stringResource(id = R.string.icon),
+                            error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
+                        )
+                        Text(
+                            text = data.forecast.forecastday.get(1).day.condition.text,
+                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                        Text(
+                            text ="${data.forecast.forecastday.get(1).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.End
+
+
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = dateToDay(data, 1),
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        AsyncImage(
+                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).day.condition.icon,
+                            contentDescription = stringResource(id = R.string.icon),
+                            error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
+                        )
+                        Text(
+                            text = data.forecast.forecastday.get(0).day.condition.text,
+                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                        Text(
+                            text ="${data.forecast.forecastday.get(0).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.End
+
+
+                        )
+                    }
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(20.dp))
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
@@ -214,9 +360,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
             Text(
                 text = stringResource(id = R.string.air),
                 color = Color(headingColor),
-                fontSize = 15.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+                modifier = Modifier.padding(start = 20.dp, top = 15.dp, bottom = 15.dp)
             )
 
             Row(
@@ -256,58 +402,65 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         color = Color.White,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,)
-                        }
-                    }
-                    Spacer(modifier =Modifier.height(10.dp))
+                }
+            }
+            Spacer(modifier =Modifier.height(10.dp))
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
 
-                    ) {
-                        Column (
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 10.dp),
-                            ){
-                            Text(
-                                text = stringResource(id = R.string.humidity),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.humidity}"+ stringResource(id = R.string.percent),
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 10.dp),
-                            horizontalAlignment = Alignment.End
+            ) {
+                Column (
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp),
+                ){
+                    Text(
+                        text = stringResource(id = R.string.humidity),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = "${data.current.humidity}"+ stringResource(id = R.string.percent),
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    horizontalAlignment = Alignment.End
 
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.uv),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.uv}",
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                    }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.uv),
+                        color = Color(headingColor),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(
+                        text = "${data.current.uv}",
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
         }
     }
 }
+
+fun dateToDay(data:WeatherModel, index:Int):String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val date = LocalDate.parse(data.forecast.forecastday.get(index).date, formatter)
+    return date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+}
+
 
 
 @Preview(showBackground = true)
