@@ -14,6 +14,7 @@
     <string name="error">error occurred</string>
     <string name="search">Search for City </string>
     <string name="fail">Failed to load the data</string>
+    <string name="forecast">3-DAY FORECAST</string>
     <string name="percent">%</string>
 
 
