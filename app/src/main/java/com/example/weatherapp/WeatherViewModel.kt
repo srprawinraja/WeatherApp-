@@ -21,31 +21,25 @@ class WeatherViewModel:ViewModel() {
     private val _weatherResult = MutableLiveData<NetworkResponse<WeatherModel>>()
     val weatherResult : LiveData<NetworkResponse<WeatherModel>> = _weatherResult
     init{
-        Log.i("responsee", "init")
         getData("madurai")
     }
 
     fun getData(city:String){
-        Log.i("responsee", "get data")
         _weatherResult.value = NetworkResponse.Loading
         viewModelScope.launch {
             try {
-                Log.i("responsee", "started")
 
                 val response = weatherApi.getWeather(ConstantKey.apiKey, city, ConstantDays.days)
 
                 if (response.isSuccessful) {
-                    Log.i("responsee", response.code().toString())
                     response.body()?.let {
                         _weatherResult.value = NetworkResponse.Success(it)
                     }
                 } else {
-                    Log.i("responsee", response.code().toString())
                     _weatherResult.value = NetworkResponse.Error("Failed to load the data")
                 }
             }
             catch (e:Exception){
-                Log.i("responsee", "error")
                 _weatherResult.value = NetworkResponse.Error("Failed to load the data")
             }
 
