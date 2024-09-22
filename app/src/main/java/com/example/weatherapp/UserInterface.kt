@@ -1,13 +1,11 @@
 package com.example.weatherapp
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,14 +13,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -251,7 +247,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         )
                         AsyncImage(
                             modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
-                            model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).day.condition.icon,
+                            model = stringResource(id = R.string.https)+ data.forecast.forecastday[0].day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
                             alignment = Alignment.TopCenter
