@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -132,10 +133,10 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            WeatherDetailPreview(headingColor)
+           // WeatherDetailPreview(headingColor)
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
-                    //WeatherDetail(headingColor, result.data)
+                    WeatherDetail(headingColor, result.data)
                 }
 
                 is NetworkResponse.Error -> {
@@ -217,101 +218,231 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                 .fillMaxWidth()
 
         ) {
-            Text(
-                text = stringResource(id = R.string.air),
-                color = Color(headingColor),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
-            )
-
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
+                    .wrapContentSize()
+                    .padding(20.dp),
             ) {
-                Column (
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 10.dp) // This makes the first column take all available space
-                ){
-                    Text(
-                        text = stringResource(id = R.string.feel),
-                        color = Color(headingColor),
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold)
-                    Text(
-                        text = "${data.current.feelslike_c} "+ stringResource(id = R.string.C),
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold)
-                }
-                Column (
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 10.dp),
-                    horizontalAlignment = Alignment.End
-                ){
-                    Text(
-                        text = stringResource(id = R.string.wind),
-                        color = Color(headingColor),
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,)
-                    Text(
-                        text = "${data.current.wind_kph}"+ stringResource(id = R.string.km),
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,)
-                        }
-                    }
-                    Spacer(modifier =Modifier.height(10.dp))
-
+                Text(
+                    text = stringResource(id = R.string.forecast),
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = "Today",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Image(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "",
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = "Sunny",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                        Text(
+                            text = "36/22",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Tue",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f),
+
+                            )
+                        Image(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "",
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = "Sunny",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                        Text(
+                            text = "36/22",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Wed",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Image(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "",
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = "Sunny",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+
+                        )
+                        Text(
+                            text = "36/22",
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(color = colorResource(id = R.color.body_background_color))
+                    .fillMaxWidth()
+
+            ) {
+                Text(
+                    text = stringResource(id = R.string.air),
+                    color = Color(headingColor),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
+                            .weight(1f)
+                            .padding(start = 10.dp) // This makes the first column take all available space
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.feel),
+                            color = Color(headingColor),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "${data.current.feelslike_c} " + stringResource(id = R.string.C),
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 10.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.wind),
+                            color = Color(headingColor),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Text(
+                            text = "${data.current.wind_kph}" + stringResource(id = R.string.km),
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, bottom = 25.dp, end = 10.dp)
+
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 10.dp),
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.humidity),
+                            color = Color(headingColor),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Text(
+                            text = "${data.current.humidity}" + stringResource(id = R.string.percent),
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 10.dp),
+                        horizontalAlignment = Alignment.End
 
                     ) {
-                        Column (
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 10.dp),
-                            ){
-                            Text(
-                                text = stringResource(id = R.string.humidity),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.humidity}"+ stringResource(id = R.string.percent),
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 10.dp),
-                            horizontalAlignment = Alignment.End
-
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.uv),
-                                color = Color(headingColor),
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                text = "${data.current.uv}",
-                                color = Color.White,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
+                        Text(
+                            text = stringResource(id = R.string.uv),
+                            color = Color(headingColor),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Text(
+                            text = "${data.current.uv}",
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
                     }
-        }
+                }
+            }
+        } // check
     }
 }
 @Composable
@@ -375,7 +506,7 @@ fun WeatherDetailPreview(headingColor:Int){
                     .padding(20.dp),
             ){
                 Text(
-                    text = "3-DAY FORECAST",
+                    text = stringResource(id = R.string.forecast),
                     color = Color(headingColor),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
