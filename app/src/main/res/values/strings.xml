@@ -16,6 +16,10 @@
     <string name="fail">Failed to load the data</string>
     <string name="forecast">3-DAY FORECAST</string>
     <string name="percent">%</string>
+    <string name="todayForecast">TODAY\'S FORECAST</string>
+    <string name="nine">9.00 AM</string>
+    <string name="twelve">12.00 AM</string>
+    <string name="three">3.00 AM</string>
 
 
 </resources>

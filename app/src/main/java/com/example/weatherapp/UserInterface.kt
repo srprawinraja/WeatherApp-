@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -136,10 +138,10 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                 .fillMaxSize()
                 .verticalScroll(scroll)
         ) {
-           // WeatherDetailPreview(headingColor)
+          //WeatherDetailPreview(headingColor)
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
-                    WeatherDetail(headingColor, result.data)
+                  WeatherDetail(headingColor, result.data)
                 }
 
                 is NetworkResponse.Error -> {
@@ -218,6 +220,120 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                 .background(color = colorResource(id = R.color.body_background_color))
                 .fillMaxWidth()
         ){
+            Text(
+                text = stringResource(id = R.string.todayForecast),
+                color = Color(headingColor),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 20.dp, top = 15.dp, bottom = 15.dp)
+            )
+            Row (
+            ){
+                Column (
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(text = stringResource(id = R.string.nine), color = Color(headingColor), fontSize = 13.sp)
+                    AsyncImage(
+                        model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).hour.get(9).condition.icon.replace("64x64","128x128"),
+                        contentDescription = stringResource(id = R.string.icon),
+                        error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
+                        alignment = Alignment.TopCenter
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text(
+                            data.forecast.forecastday.get(0).hour.get(9).temp_c.toString(),
+                            fontSize = 13.sp,
+                            color = Color.White,
+                            fontStyle = FontStyle.Normal,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.ExtraBold,
+                            )
+
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
+                            contentDescription = stringResource(id = R.string.weatherImage),
+                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                        )
+                    }
+                }
+                Column (
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(text = stringResource(id = R.string.twelve), color = Color(headingColor),  fontSize = 13.sp)
+                    AsyncImage(
+                        model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).hour.get(12).condition.icon.replace("64x64","128x128"),
+                        contentDescription = stringResource(id = R.string.icon),
+                        error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
+                        alignment = Alignment.TopCenter
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text(
+                            data.forecast.forecastday.get(0).hour.get(12).temp_c.toString(),
+                            fontSize = 13.sp,
+                            color = Color.White,
+                            fontStyle = FontStyle.Normal,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.ExtraBold,
+
+                            )
+
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
+                            contentDescription = stringResource(id = R.string.weatherImage),
+                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                        )
+                    }
+                }
+                Column (
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(text = stringResource(id = R.string.three), color = Color(headingColor), fontSize = 13.sp)
+                    AsyncImage(
+                        model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(0).hour.get(15).condition.icon.replace("64x64","128x128"),
+                        contentDescription = stringResource(id = R.string.icon),
+                        error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
+                        alignment = Alignment.TopCenter
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Text(
+                            data.forecast.forecastday.get(0).hour.get(15).temp_c.toString(),
+                            fontSize = 13.sp,
+                            color = Color.White,
+                            fontStyle = FontStyle.Normal,
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.ExtraBold,
+                            )
+
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
+                            contentDescription = stringResource(id = R.string.weatherImage),
+                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Column (
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = colorResource(id = R.color.body_background_color))
+                .fillMaxWidth()
+        ){
             Column (
                 modifier = Modifier
                     .wrapContentSize()
@@ -226,7 +342,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                 Text(
                     text = stringResource(id = R.string.forecast),
                     color = Color(headingColor),
-                    fontSize = 14.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.height(15.dp))
@@ -239,14 +355,16 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     ) {
                         Text(
                             text = "Today",
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
+                            color = Color(headingColor),
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Left,
                             modifier = Modifier.weight(1f)
                         )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday[0].day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
@@ -254,21 +372,31 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         )
                         Text(
                             text = data.forecast.forecastday.get(0).day.condition.text,
-                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            color = colorResource(id = R.color.text_color), fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f),
 
                         )
-                        Text(
-                            text ="${data.forecast.forecastday.get(0).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
+                        Row (
                             modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.End
+                            horizontalArrangement = Arrangement.End
+                            ){
+                            Text(
+                                text = "${data.forecast.forecastday.get(0).day.maxtemp_c.toInt()}",
+                                color = colorResource(id = R.color.text_color),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
+                            Text(
+                                text = "/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
+                                color = Color(headingColor),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
 
-
-                        )
+                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -276,35 +404,47 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     ) {
                         Text(
                             text = dateToDay(data, 1),
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
+                            color = Color(headingColor),
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f),
 
                             )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(1).day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
                         )
                         Text(
                             text = data.forecast.forecastday.get(1).day.condition.text,
-                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            color = colorResource(id = R.color.text_color), fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
 
                         )
-                        Text(
-                            text ="${data.forecast.forecastday.get(1).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
+                        Row (
                             modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.End
+                            horizontalArrangement = Arrangement.End
+                        ){
+                            Text(
+                                text = "${data.forecast.forecastday.get(1).day.maxtemp_c.toInt()}",
+                                color = colorResource(id = R.color.text_color),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
+                            Text(
+                                text = "/${data.forecast.forecastday.get(1).day.mintemp_c.toInt()}",
+                                color = Color(headingColor),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
 
-
-                        )
+                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -312,34 +452,46 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     ) {
                         Text(
                             text = dateToDay(data, 2),
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
+                            color = Color(headingColor),
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
                         )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(2).day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
                         )
                         Text(
                             text = data.forecast.forecastday.get(2).day.condition.text,
-                            color = colorResource(id = R.color.text_color), fontSize = 15.sp,
+                            color = colorResource(id = R.color.text_color), fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
 
                         )
-                        Text(
-                            text ="${data.forecast.forecastday.get(2).day.maxtemp_c.toInt()}/${data.forecast.forecastday.get(0).day.mintemp_c.toInt()}",
-                            color = colorResource(id = R.color.text_color),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
+                        Row (
                             modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.End
+                            horizontalArrangement = Arrangement.End
+                        ){
+                            Text(
+                                text = "${data.forecast.forecastday.get(2).day.maxtemp_c.toInt()}",
+                                color = colorResource(id = R.color.text_color),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
+                            Text(
+                                text = "/${data.forecast.forecastday.get(2).day.mintemp_c.toInt()}",
+                                color = Color(headingColor),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
 
-
-                        )
+                        }
                     }
                 }
             }
@@ -356,7 +508,7 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
             Text(
                 text = stringResource(id = R.string.air),
                 color = Color(headingColor),
-                fontSize = 14.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 20.dp, top = 15.dp, bottom = 15.dp)
             )
@@ -374,12 +526,12 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     Text(
                         text = stringResource(id = R.string.feel),
                         color = Color(headingColor),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold)
                     Text(
                         text = "${data.current.feelslike_c} "+ stringResource(id = R.string.C),
                         color = Color.White,
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold)
                 }
                 Column (
@@ -391,12 +543,12 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     Text(
                         text = stringResource(id = R.string.wind),
                         color = Color(headingColor),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,)
                     Text(
                         text = "${data.current.wind_kph}"+ stringResource(id = R.string.km),
                         color = Color.White,
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,)
                 }
             }
@@ -416,13 +568,13 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     Text(
                         text = stringResource(id = R.string.humidity),
                         color = Color(headingColor),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         text = "${data.current.humidity}"+ stringResource(id = R.string.percent),
                         color = Color.White,
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 }
@@ -436,20 +588,23 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                     Text(
                         text = stringResource(id = R.string.uv),
                         color = Color(headingColor),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         text = "${data.current.uv}",
                         color = Color.White,
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 }
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
+
+
 
 fun dateToDay(data:WeatherModel, index:Int):String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -459,7 +614,7 @@ fun dateToDay(data:WeatherModel, index:Int):String {
 
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, device = Devices.DESKTOP)
 @Composable
 fun WeatherPagePreview() {
     WeatherAppTheme {
