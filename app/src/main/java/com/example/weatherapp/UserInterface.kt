@@ -60,6 +60,16 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+// fasdsa
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
@@ -256,7 +266,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Image(
                             painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
                             contentDescription = stringResource(id = R.string.weatherImage),
-                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                            modifier = Modifier
+                                .size(10.dp)
+                                .padding(start = 1.dp)
                         )
                     }
                 }
@@ -288,7 +300,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Image(
                             painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
                             contentDescription = stringResource(id = R.string.weatherImage),
-                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                            modifier = Modifier
+                                .size(10.dp)
+                                .padding(start = 1.dp)
                         )
                     }
                 }
@@ -319,7 +333,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                         Image(
                             painter = painterResource(id = R.drawable.baseline_arrow_circle_up_24),
                             contentDescription = stringResource(id = R.string.weatherImage),
-                            modifier = Modifier.size(10.dp).padding(start = 1.dp)
+                            modifier = Modifier
+                                .size(10.dp)
+                                .padding(start = 1.dp)
                         )
                     }
                 }
@@ -603,6 +619,8 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
         Spacer(modifier = Modifier.height(20.dp))
     }
 }
+data class Raindrop(val x: Float, var y: Float, val speed: Float, val length: Float, val opacity: Float)
+
 
 
 
