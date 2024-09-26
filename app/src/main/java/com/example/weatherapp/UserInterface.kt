@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,8 +27,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -54,10 +58,12 @@ import coil.compose.AsyncImage
 import com.example.weatherapp.API.NetworkResponse
 import com.example.weatherapp.API.WeatherModel
 import com.example.weatherapp.ui.theme.WeatherAppTheme
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlin.random.Random
 
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel){
@@ -136,9 +142,12 @@ fun WeatherPage(weatherViewModel: WeatherViewModel){
                 .fillMaxSize()
                 .verticalScroll(scroll)
         ) {
-           // WeatherDetailPreview(headingColor)
+
             when (val result = weatherResult.value) {
                 is NetworkResponse.Success -> {
+                    if(result.data.current.condition.text.contains("rain")){
+                        RealisticRainAnimation()
+                    }
                     WeatherDetail(headingColor, result.data)
                 }
 
@@ -246,7 +255,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                             modifier = Modifier.weight(1f)
                         )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday[0].day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d),
@@ -283,7 +294,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
 
                             )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(1).day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
@@ -318,7 +331,9 @@ fun WeatherDetail(headingColor:Int, data:WeatherModel){
                             modifier = Modifier.weight(1f)
                         )
                         AsyncImage(
-                            modifier = Modifier.weight(1f).offset(0.dp, -5.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .offset(0.dp, -5.dp),
                             model = stringResource(id = R.string.https)+ data.forecast.forecastday.get(2).day.condition.icon,
                             contentDescription = stringResource(id = R.string.icon),
                             error = painterResource(id = R.drawable._cb99d46_bd7d_4eb7_9526_5b7c4fe7fc9d)
@@ -456,7 +471,44 @@ fun dateToDay(data:WeatherModel, index:Int):String {
     val date = LocalDate.parse(data.forecast.forecastday.get(index).date, formatter)
     return date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
 }
+@Composable
+fun RealisticRainAnimation() {
+    val screenWidth = 1000f  // Adjust according to your layout
+    val raindrops = remember { mutableStateListOf<Raindrop>() }
+    val col=Color(ContextCompat.getColor(LocalContext.current, R.color.rainColor))
 
+    LaunchedEffect(Unit) {
+        while (true) {
+            val newRaindrop = Raindrop(
+                x = Random.nextFloat() * screenWidth,
+                y = 0f,
+                speed = 10.0f,
+                length = Random.nextFloat() * 20 + 10,
+                opacity = Random.nextFloat() * 0.5f + 0.5f
+            )
+            raindrops.add(newRaindrop)
+
+            delay(50L)
+        }
+    }
+
+    Canvas(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+        raindrops.forEach { drop ->
+            drawLine(
+                color = col.copy(alpha = drop.opacity),
+                start = Offset(drop.x, drop.y),
+                end = Offset(drop.x + 2, drop.y + drop.length),
+                strokeWidth = 3f // Make the raindrop thinner
+            )
+
+            drop.y += drop.speed
+
+
+        }
+    }
+}
 
 
 @Preview(showBackground = true)

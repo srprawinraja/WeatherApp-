@@ -11,6 +11,7 @@
     <color name="text_color">#ebeff5</color>
     <color name="heading">#5f6772</color>
     <color name="body_background_color">#222b3b</color>
+    <color name="rainColor">#4a6583</color>
 
 
 </resources>
