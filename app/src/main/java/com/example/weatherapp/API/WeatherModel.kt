@@ -8,4 +8,4 @@ data class WeatherModel(
     val temp: String,
     val todayForecast: List<TodayForecast>,
     val weather: String
-)`
+)
