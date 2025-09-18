@@ -24,3 +24,9 @@ The app also shows air-quality data and supports city-name search.
 1. Clone this repository:
    ```bash
    git clone https://github.com/yourusername/weather-frontend.git
+
+2. Open in Android Studio.
+
+3. Set the backend API base URL in NetworkModule.kt.
+
+3. Build and run on an emulator or Android device.
